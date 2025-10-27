@@ -1,0 +1,120 @@
+import random
+
+# --- Word bank ---
+word_list = [
+    "python", "computer", "science", "hangman",
+    "programming", "history", "planet", "internet"
+]
+
+# --- Hangman drawing stages ---
+hangman_stages = [
+    """
+       ------
+       |    |
+       |
+       |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |    |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |   /
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |   / \\
+       |
+    --------
+    """
+]
+
+def hangman():
+    # --- Variables ---
+    secret_word = random.choice(word_list)
+    guessed_word = ["_"] * len(secret_word)
+    used_letters = []
+    remaining_attempts = len(hangman_stages) - 1
+
+    print("🎯 Welcome to Hangman!")
+
+    # --- MAIN LOOP: keep playing until win or lose ---
+    while remaining_attempts > 0 and "_" in guessed_word:
+        print(hangman_stages[len(hangman_stages) - 1 - remaining_attempts])
+        print("Word:", " ".join(guessed_word))
+        print("Used letters:", ", ".join(used_letters))
+        print(f"Remaining attempts: {remaining_attempts}")
+
+        # Input loop (forces correct input)
+        player_guess = input("👉 Guess a letter: ").lower()
+        while len(player_guess) != 1 or not player_guess.isalpha():
+            player_guess = input("⚠️ Enter only ONE letter: ").lower()
+
+        if player_guess in used_letters:
+            print("⚠️ You already tried that letter.")
+            continue
+        used_letters.append(player_guess)
+
+        # Loop through word to update guessed letters
+        if player_guess in secret_word:
+            print("✅ Good guess!")
+            for i, letter in enumerate(secret_word):  # <-- FOR loop
+                if letter == player_guess:
+                    guessed_word[i] = player_guess
+        else:
+            print("❌ Wrong guess.")
+            remaining_attempts -= 1
+
+    # --- END OF GAME ---
+    if "_" not in guessed_word:
+        print("\n🎉 You won! The word was:", secret_word)
+    else:
+        print(hangman_stages[-1])
+        print("\n💀 Game Over! The word was:", secret_word)
+
+# Run the game
+hangman()

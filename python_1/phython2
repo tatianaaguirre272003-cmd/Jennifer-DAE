@@ -1,0 +1,181 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+
+# --- Word bank ---
+word_list = [
+    "python", "computer", "science", "hangman",
+    "programming", "history", "planet", "internet"
+]
+
+# --- Hangman drawing stages ---
+hangman_stages = [
+    """
+       ------
+       |    |
+       |
+       |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |    |
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |   /
+       |
+    --------
+    """,
+    """
+       ------
+       |    |
+       |    O
+       |   /|\\
+       |   / \\
+       |
+    --------
+    """
+]
+
+class HangmanGame:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("🎯 Hangman Game")
+        self.root.config(bg="#f0f0f0")
+
+        # --- Game variables ---
+        self.secret_word = random.choice(word_list)
+        self.guessed_word = ["_"] * len(self.secret_word)
+        self.used_letters = []
+        self.remaining_attempts = len(hangman_stages) - 1
+
+        # --- GUI Elements ---
+        self.hangman_label = tk.Label(root, text=hangman_stages[0], font=("Courier", 14), justify="left", bg="#f0f0f0")
+        self.hangman_label.pack(pady=10)
+
+        self.word_label = tk.Label(root, text=" ".join(self.guessed_word), font=("Helvetica", 24, "bold"), bg="#f0f0f0")
+        self.word_label.pack(pady=10)
+
+        self.used_label = tk.Label(root, text="Used letters: ", font=("Arial", 12), bg="#f0f0f0")
+        self.used_label.pack(pady=5)
+
+        # --- Letter buttons ---
+        self.buttons_frame = tk.Frame(root, bg="#f0f0f0")
+        self.buttons_frame.pack(pady=10)
+
+        for i, letter in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+            button = tk.Button(
+                self.buttons_frame,
+                text=letter,
+                width=4,
+                height=2,
+                command=lambda l=letter.lower(): self.guess_letter(l),
+                font=("Helvetica", 12, "bold"),
+                bg="#d9eaf7",
+                activebackground="#b2dffc"
+            )
+            button.grid(row=i // 9, column=i % 9, padx=3, pady=3)
+
+        # Restart button
+        self.restart_button = tk.Button(root, text="🔁 Restart Game", font=("Arial", 12, "bold"), command=self.restart_game)
+        self.restart_button.pack(pady=10)
+
+    def guess_letter(self, letter):
+        if letter in self.used_letters:
+            messagebox.showinfo("Oops!", f"You already tried '{letter.upper()}'.")
+            return
+
+        self.used_letters.append(letter)
+        self.update_used_letters()
+
+        if letter in self.secret_word:
+            for i, l in enumerate(self.secret_word):
+                if l == letter:
+                    self.guessed_word[i] = letter
+            self.update_word_display()
+        else:
+            self.remaining_attempts -= 1
+            self.update_hangman_display()
+
+        self.check_game_status()
+
+    def update_word_display(self):
+        self.word_label.config(text=" ".join(self.guessed_word))
+
+    def update_used_letters(self):
+        self.used_label.config(text=f"Used letters: {', '.join(self.used_letters)}")
+
+    def update_hangman_display(self):
+        stage_index = (len(hangman_stages) - 1) - self.remaining_attempts
+        self.hangman_label.config(text=hangman_stages[stage_index])
+
+    def check_game_status(self):
+        if "_" not in self.guessed_word:
+            messagebox.showinfo("🎉 You Win!", f"You guessed the word: {self.secret_word.upper()}!")
+            self.disable_buttons()
+        elif self.remaining_attempts == 0:
+            self.hangman_label.config(text=hangman_stages[-1])
+            messagebox.showinfo("💀 Game Over", f"The word was: {self.secret_word.upper()}")
+            self.disable_buttons()
+
+    def disable_buttons(self):
+        for child in self.buttons_frame.winfo_children():
+            child.config(state="disabled")
+
+    def restart_game(self):
+        self.secret_word = random.choice(word_list)
+        self.guessed_word = ["_"] * len(self.secret_word)
+        self.used_letters = []
+        self.remaining_attempts = len(hangman_stages) - 1
+
+        self.word_label.config(text=" ".join(self.guessed_word))
+        self.used_label.config(text="Used letters: ")
+        self.hangman_label.config(text=hangman_stages[0])
+
+        for child in self.buttons_frame.winfo_children():
+            child.config(state="normal")
+
+
+# --- Run the app ---
+if __name__ == "__main__":
+    root = tk.Tk()
+    game = HangmanGame(root)
+    root.mainloop()
