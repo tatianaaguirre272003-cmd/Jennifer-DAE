@@ -14,7 +14,7 @@ body{
   padding:20px;
 }
 header, footer{max-width:900px;margin:0 auto;padding:8px 0}
-header h1{margin:.1rem 0;color: blue}
+header h1{margin:.1rem 0;color: blue2}
 nav{max-width:900px;margin:0 auto 16px;padding:8px 0}
 nav a{color:var(--accent);text-decoration:none;font-weight:600}
 main{max-width:900px;margin:0 auto;background:transparent;padding:8px}
