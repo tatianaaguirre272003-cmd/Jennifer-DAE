@@ -22,5 +22,14 @@ main{max-width:900px;margin:0 auto;background:transparent;padding:8px}
 .frames img{border-radius:6px;box-shadow:0 2px 6px rgba(95, 3, 3, 0.945)}
 .explore-section{display:flex;justify-content:center;margin:8px 0}
 footer{font-size:.9rem;color:var(--muted);text-align:center;margin-top:20px}
+body {
+  background: linear-gradient(to top, #87ceeb, #ffffff);
+  transition: background1s;
+  overflow: hidden;
+}
 
-
+/* Night mode */
+body.night {
+  background: linear-gradient(to top, #001848, #000000);
+  color: white;
+}
