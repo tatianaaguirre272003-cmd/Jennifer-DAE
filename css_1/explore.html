@@ -30,11 +30,33 @@
       and interact with the environment.
     </p>
 
+    <!-- INTERACTIVE SECTION -->
+    <section>
+      <h2 id="lakeStatus">Loading...</h2>
+      <button onclick="updateLake()">Update Lake</button>
+      <button onclick="startSimulation()">Start Simulation</button>
+      <button onclick="makeItRain()">Make It Rain</button>
+    </section>
+
+    <!-- Container para peces -->
+    <div id="fishContainer"></div>
+
+    <!-- Barra de Ecosystem Health -->
+    <div style="width: 300px; background: gray; margin-top: 10px;">
+      <div id="healthBar" style="height: 20px; width: 50%; background: green;"></div>
+    </div>
+
+    <!-- Sonido de agua -->
+    <audio id="waterSound" src="water.mp3"></audio>
+
   </main>
 
   <footer>
     <p>Digital Lake © 2026</p>
   </footer>
+
+  <!-- Script JS compartido con index.html -->
+  <script src="script.js"></script>
 
 </body>
 </html>
