@@ -1,114 +1,87 @@
-const fishContainer = document.getElementById('fishContainer');
-const animalsContainer = document.getElementById('animalsContainer');
-const lake = document.getElementById('lake');
-const waterSound = document.getElementById('waterSound');
-const rainSound = document.getElementById('rainSound');
-const fireSound = document.getElementById('fireSound');
-const rain = document.getElementById('rain');
-const fire = document.getElementById('fire');
-
-let fishes = [];
-let animals = [];
-let simulationRunning = false;
-let isDay = true;
-let isRain = false;
-let isFire = false;
-let fishPopulation = 10;
-let waterTemperature = 75;
-
-// Crear peces
-function createFish() {
-  for (let i=0; i<5; i++){
-    let fish = document.createElement('img');
-    fish.src='images/fish.png';
-    fish.className='fish';
-    fish.style.top=Math.random()*300+'px';
-    fish.style.left=Math.random()*800+'px';
-    fishContainer.appendChild(fish);
-    fishes.push(fish);
-  }
+// =================== PORTADA ===================
+const covers = ["images/work1.png","images/work2.png","images/work3.png","images/work4.png"];
+let currentCover = 0;
+function nextCover() {
+  currentCover = (currentCover + 1) % covers.length;
+  document.getElementById("coverImage").src = covers[currentCover];
+}
+function prevCover() {
+  currentCover = (currentCover - 1 + covers.length) % covers.length;
+  document.getElementById("coverImage").src = covers[currentCover];
 }
 
-// Crear animales
-function createAnimals() {
-  const animalImages=['images/deer.png','images/turtle.png'];
-  for (let i=0;i<3;i++){
-    let animal=document.createElement('img');
-    animal.src=animalImages[i%animalImages.length];
-    animal.className='animal';
-    animal.style.top=Math.random()*300+'px';
-    animal.style.left=Math.random()*800+'px';
-    animalsContainer.appendChild(animal);
-    animals.push(animal);
-  }
+// =================== LAGO ANIMADO ===================
+const frames = ["images/frame1.png","images/frame2.png","images/frame3.png","images/frame4.png"];
+let currentFrame = 0;
+function animateLake() {
+  const lakeFrame = document.getElementById("lakeFrame");
+  currentFrame = (currentFrame + 1) % frames.length;
+  lakeFrame.src = frames[currentFrame];
 }
 
-// Animación
-function animate() {
-  if(!simulationRunning) return;
-  fishes.forEach(fish=>{
-    let left=parseFloat(fish.style.left);
-    left-=1;
-    if(left<-50) left=800;
-    fish.style.left=left+'px';
+// =================== ANIMA ANIMALES PEQUEÑOS ===================
+function moveAnimals() {
+  const animals = document.querySelectorAll(".animal");
+  animals.forEach(a => {
+    // movimiento dentro de un cuadradito pequeño (20%-80%)
+    const top = 20 + Math.random()*60;
+    const left = 20 + Math.random()*60;
+    a.style.top = top + "%";
+    a.style.left = left + "%";
   });
-  animals.forEach(animal=>{
-    let left=parseFloat(animal.style.left);
-    left-=0.5;
-    if(left<-60) left=800;
-    animal.style.left=left+'px';
-  });
-  requestAnimationFrame(animate);
 }
 
-// Simulación
-function startSimulation(){
-  if(!simulationRunning){
-    simulationRunning=true;
-    animate();
-    waterSound.play();
+// =================== DAY / NIGHT ===================
+function toggleDayNight() {
+  document.body.classList.toggle("night");
+}
+
+// =================== RAIN ===================
+let raining = false;
+function toggleRain() {
+  raining = !raining;
+  const rainContainer = document.getElementById("rain");
+  rainContainer.innerHTML = '';
+  if(raining) createRain(100);
+}
+function createRain(count){
+  const rainContainer = document.getElementById("rain");
+  for(let i=0;i<count;i++){
+    const drop = document.createElement("div");
+    drop.className='drop';
+    drop.style.left=Math.random()*100+'%';
+    drop.style.animationDuration=(0.5+Math.random()*1)+'s';
+    drop.style.animationDelay=(Math.random()*2)+'s';
+    rainContainer.appendChild(drop);
   }
 }
 
-// Día/Noche
-function toggleDayNight(){
-  isDay=!isDay;
-  document.body.style.background=isDay?'linear-gradient(to bottom, #ffc0cb, #ffffff)':'linear-gradient(to bottom, #001f3f, #003366)';
+// =================== ADD FISH ===================
+function addFish(){
+  const lake=document.getElementById("lakeContainer");
+  const fish=document.createElement("img");
+  fish.src="images/fish.png";
+  fish.className="animal";
+  fish.style.top = 20 + Math.random()*60 + "%";
+  fish.style.left = 20 + Math.random()*60 + "%";
+  lake.appendChild(fish);
 }
 
-// Lluvia
-function toggleRain(){
-  isRain=!isRain;
-  rain.style.display=isRain?'block':'none';
-  if(isRain) rainSound.play(); else rainSound.pause();
+// =================== TEMPERATURA ===================
+let temp = 20; // inicial
+function changeTemperature(){
+  temp = temp + 10; // simula cambio
+  if(temp>30){
+    document.body.style.background="linear-gradient(to bottom, #ff4500, #ffa500)"; // caliente rojo-anaranjado
+  } else if(temp<10){
+    document.body.style.background="linear-gradient(to bottom, #cce6ff, #ffffff)"; // frio azul-blanco
+  } else {
+    document.body.style.background="linear-gradient(to bottom, #ffd1dc, #fff)"; // normal rosa pastel
+  }
 }
 
-// Fogata
-function toggleFire(){
-  isFire=!isFire;
-  fire.style.display=isFire?'block':'none';
-  if(isFire) fireSound.play(); else fireSound.pause();
-}
-
-// Health
-function toggleHealth(){
-  alert("💖 Your health is full!");
-}
-
-// Actualizar lago y barra de salud
-function updateLake(){
-  fishPopulation+=2;
-  document.getElementById("lakeStatus").textContent=
-    "Fish: "+fishPopulation+" | Temp: "+waterTemperature+"°F | Updated!";
-  updateHealthBar(fishPopulation, waterTemperature);
-}
-
-// Barra de salud
-function updateHealthBar(fish,temp){
-  let health=Math.min(100,(fish*5+temp)/2);
-  document.getElementById('healthBar').style.width=health+'%';
-}
-
-// Inicializar
-createFish();
-createAnimals();
+// =================== INICIALIZAR ===================
+window.onload = ()=>{
+  setInterval(animateLake, 10000);
+  setInterval(moveAnimals, 1000);
+};
