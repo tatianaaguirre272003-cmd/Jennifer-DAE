@@ -3,20 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Lake - Work Page</title>
+<title>Digital Lake - Explore</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    transition: background 1s, color 1s;
+    color: #333;
+  }
+  body.night {
+    color: #eee;
+  }
+
+  /* Contenedor lago centrado y tamaño A4 */
+  #lakeContainer {
+    position: relative;
+    width: 800px;
+    height: 1123px;
+    margin: 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #ffd1dc, #fff);
+  }
+
+  /* Fondo animado del lago */
+  #lakeFrame {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Animales / emojis */
+  .animal {
+    position: absolute;
+    display: block;
+    font-size: 50px;
+    transition: top 0.8s linear, left 0.8s linear;
+  }
+
+  /* Lluvia */
+  #rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .drop {
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background: linear-gradient(to bottom, #a0e0ff, #ffffff);
+    opacity: 0.8;
+    animation-name: fall;
+    animation-timing-function: linear;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(1123px); }
+  }
+
+  /* Controles */
+  .controls {
+    margin: 10px auto;
+    text-align: center;
+  }
+  .controls button, .controls a {
+    margin: 5px;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(45deg, #ff9ed9, #ff77bb);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .controls button:hover, .controls a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  }
+
+  /* Display temperatura */
+  #temperatureDisplay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.7);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    z-index: 10;
+  }
+</style>
 </head>
 <body>
 
-<!-- Contenedor portada -->
-<div id="coverContainer">
-  <img src="images/frame1.png" id="coverImage" class="cover-img">
+<div id="lakeContainer">
+  <img src="images/frame1.png" id="lakeFrame">
+  <!-- Emojis de animales iniciales -->
+  <span class="animal" id="fish">🐠</span>
+  <span class="animal" id="deer">🦌</span>
+  <span class="animal" id="turtle">🐢</span>
+
+  <div id="rain"></div>
+  <div id="temperatureDisplay">Temperature: 20°C</div>
 </div>
 
 <div class="controls">
-  <button onclick="prevCover()">⏮️ Previous</button>
-  <button onclick="nextCover()">⏭️ Next</button>
-  <a href="explore.html">Explore the Lake</a>
+  <button onclick="addFish()">Add Fish 🐠</button>
+  <button onclick="toggleDayNight()">🌞/🌙 Day & Night</button>
+  <button onclick="toggleRain()">🌧️ Rain/Storm</button>
+  <button onclick="speedUp()">⚡ Speed</button>
+  <button onclick="changeTemperature()">🌡️ Temperature</button>
+  <a href="index.html">Back to Work Page</a>
 </div>
 
 <script src="script.js"></script>

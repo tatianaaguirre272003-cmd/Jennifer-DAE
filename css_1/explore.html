@@ -8,20 +8,21 @@
 </head>
 <body>
 
-<!-- Fondo lago y lluvia -->
 <div id="lakeContainer">
-  <img src="images/frame1.png" id="lakeFrame" class="lake-background">
-  
-  <!-- Animales pequeños -->
-  <img src="images/fish.png" class="animal" id="fish">
-  <img src="images/deer.png" class="animal" id="deer">
-  <img src="images/turtle.png" class="animal" id="turtle">
+  <!-- Fondo lago animado -->
+  <img src="images/frame1.png" id="lakeFrame">
+
+  <!-- Emojis iniciales -->
+  <span class="animal" id="fish">🐠</span>
+  <span class="animal" id="deer">🦌</span>
+  <span class="animal" id="turtle">🐢</span>
 
   <div id="rain"></div>
+  <div id="temperatureDisplay">Temperature: 20°C</div>
 </div>
 
 <div class="controls">
-  <button onclick="addFish()">Add Fish</button>
+  <button onclick="addFish()">Add Fish 🐠</button>
   <button onclick="toggleDayNight()">🌞/🌙 Day & Night</button>
   <button onclick="toggleRain()">🌧️ Rain/Storm</button>
   <button onclick="speedUp()">⚡ Speed</button>
