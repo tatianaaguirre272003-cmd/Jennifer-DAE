@@ -1,0 +1,390 @@
+Last login: Wed Apr  1 16:20:35 on ttys000
+hs22@Skills-Academy-57 bin % ./mysql -u root -p            
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 42
+Server version: 8.0.44 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.02 sec)
+
+mysql> CREATE DATABASE MESSAGES;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| MESSAGES           |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> USE MESSAGES;
+Database changed
+mysql> SHOW TABLES;
+Empty set (0.00 sec)
+
+mysql> CREATE TABLE MESSAGES;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> CREATE TABLE MESSAGES ADD COULMN ID, MESSAGE, FROM, TO
+    -> JU
+JU
+^C
+mysql> CREATE TABLE MESSAGES ADD COULMN ID, MESSAGE, FROM, TO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ADD COULMN ID, MESSAGE, FROM, TO' at line 1
+mysql> CREATE TABLE MESSAGES (ID INTAUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, FROM VARCHAR(30), TO VARCHAR(30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INTAUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, FROM VARCHAR(30), TO VARCHAR(30)' at line 1
+mysql> CREATE TABLE MESSAGES (ID INTAUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, FROM VARCHAR(30), TO VARCHAR(30));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INTAUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, FROM VARCHAR(30), TO VARCHAR(30))' at line 1
+mysql> CREATE TABLE MESSAGES (ID INT AUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, FROM VARCHAR(30), TO VARCHAR(30));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM VARCHAR(30), TO VARCHAR(30))' at line 1
+mysql> CREATE TABLE MESSAGES (ID INT AUTO_INCREMENT PRIMARY KEY, MESSAGE TEXT, 'FROM' VARCHAR(30), 'TO' VARCHAR(30));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''FROM' VARCHAR(30), 'TO' VARCHAR(30))' at line 1
+mysql> CREATE TABLE messages (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     message TEXT,
+    ->     sender VARCHAR(30),
+    ->     recipient VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SHOW TABLES
+    -> 
+
+^C
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_messages |
++--------------------+
+| messages           |
++--------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT * FROM messages
+    -> 
+
+^C
+mysql> SELECT * FROM messages;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO messages (sender, recipient, message)
+    -> VALUES ('Abhinav', 'Jennifer', 'hiiii....');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM messages;
++----+-----------+---------+-----------+
+| id | message   | sender  | recipient |
++----+-----------+---------+-----------+
+|  1 | hiiii.... | Abhinav | Jennifer  |
++----+-----------+---------+-----------+
+1 row in set (0.01 sec)
+
+mysql> SELECT * FROM messages;
++----+--------------+---------+-----------+
+| id | message      | sender  | recipient |
++----+--------------+---------+-----------+
+|  1 | hiiii....    | Abhinav | Jennifer  |
+|  2 | I am Abhinav | Abhinav | Jennifer  |
++----+--------------+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO messages (sender, recipient, message) VALUES ('Jennifer', 'Abhinav', 'Hello...I am Jennifer. Nice to meet you');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM messages;                                                                                          +----+-----------------------------------------+----------+-----------+
+| id | message                                 | sender   | recipient |
++----+-----------------------------------------+----------+-----------+
+|  1 | hiiii....                               | Abhinav  | Jennifer  |
+|  2 | I am Abhinav                            | Abhinav  | Jennifer  |
+|  3 | Hello...I am Jennifer. Nice to meet you | Jennifer | Abhinav   |
++----+-----------------------------------------+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> desc messages
+    -> 
+
+^C
+mysql> desc messages;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| message   | text        | YES  |     | NULL    |                |
+| sender    | varchar(30) | YES  |     | NULL    |                |
+| recipient | varchar(30) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE users (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(30),
+    ->     email VARCHAR(50)
+    -> );CREATE TABLE users (
+Query OK, 0 rows affected (0.02 sec)
+
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(30),
+    ->     email VARCHAR(50)
+    -> SHOW TABLES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SHOW TABLES' at line 5
+mysql> SR(50) SHOW TABLES;
++--------------------+
+| Tables_in_messages |
++--------------------+
+| messages           |
+| users              |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM users;
+Empty set (0.01 sec)
+
+mysql> INSERT INTO users (name, email)
+    -> VALUES ('Abhinav', 'abhinav@email.com');INSERT INTO users (name, email)
+Query OK, 1 row affected (0.00 sec)
+
+    -> VALUES ('Jennifer', 'jennifer@email.com');INSERT INTO users (name, email)
+Query OK, 1 row affected (0.00 sec)
+
+    -> VALUES ('Sofia', 'sofia@email.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM users;
++----+----------+--------------------+
+| id | name     | email              |
++----+----------+--------------------+
+|  1 | Abhinav  | abhinav@email.com  |
+|  2 | Jennifer | jennifer@email.com |
+|  3 | Sofia    | sofia@email.com    |
++----+----------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE users;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30) | YES  |     | NULL    |                |
+| email | varchar(50) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE groups (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     group_name VARCHAR(50),
+    ->     created_by VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(50),
+    ' at line 1
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_messages |
++--------------------+
+| messages           |
+| users              |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO groups (group_name, created_by)
+    -> VALUES ('Friends', 'Abhinav');INSERT INTO groups (group_name, created_by)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (group_name, created_by)
+VALUES ('Friends', 'Abhinav')' at line 1
+    -> INSERT INTO groups (group_name, created_by)
+    -> VALUES ('Study Group', 'Jennifer');INSERT INTO groups (group_name, created_by)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (group_name, created_by)
+INSERT INTO groups (group_name, created_by)
+VALU' at line 1
+    -> VALUES ('Gaming', 'Sofia');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (group_name, created_by)
+VALUES ('Gaming', 'Sofia')' at line 1
+mysql> SELECT * FROM groups;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups' at line 1
+mysql> SELECT * FROM groups;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups' at line 1
+mysql> CREATE TABLE groups (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     group_name VARCHAR(50),
+    ->     created_by VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(50),
+    ' at line 1
+mysql> mysql> CREATE TABLE groups (     id INT AUTO_INCREMENT PRIMARY KEY,     group_name VARCHAR(50),     created_by VARCHAR(30) );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (     id INT AUTO_INCREMENT PRIMARY KEY,     group_name VARCHAR(50),     ' at line 1
+mysql> CREATE TABLE groups (     id INT AUTO_INCREMENT PRIMARY KEY,     group_name VARCHAR(50),     created_by VARCHAR(30) );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (     id INT AUTO_INCREMENT PRIMARY KEY,     group_name VARCHAR(50),     ' at line 1
+mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (     id INT AUTO_INCREMENT PRIMARY KEY,     group_name VARCHAR(50),     ' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
+    -> 
+    -> 
+
+^C
+mysql> CREATE TABLE user_groups (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     group_name VARCHAR(50),
+    ->     created_by VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_messages |
++--------------------+
+| messages           |
+| user_groups        |
+| users              |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO groups (group_name, created_by)
+    -> VALUES ('Study Group', 'Jennifer');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (group_name, created_by)
+VALUES ('Study Group', 'Jennifer')' at line 1
+mysql> INSERT INTO groups (group_name, created_by) VALUES ('Study Group', 'Jennifer'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groups (group_name, created_by) VALUES ('Study Group', 'Jennifer'))' at line 1
+mysql> INSERT INTO user_groups (group_name, created_by) VALUES ('Study Group', 'Jennifer');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM user_groups
+    -> 
+
+^C
+mysql> SELECT * FROM user_groups;
++----+-------------+------------+
+| id | group_name  | created_by |
++----+-------------+------------+
+|  1 | Study Group | Jennifer   |
++----+-------------+------------+
+1 row in set (0.01 sec)
+
+mysql> DESCRIBE user_groups
+    -> 
+    -> des user_groups;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_groups' at line 3
+mysql> DESCRIBE 'user_groups'
+    -> 
+    -> DESC user_groups;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''user_groups'
+
+DESC user_groups' at line 1
+mysql> DESC user_groups;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| group_name | varchar(50) | YES  |     | NULL    |                |
+| created_by | varchar(30) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE contacts (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     user_name VARCHAR(30),
+    ->     phone VARCHAR(15)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO contacts (user_name, phone)
+    -> VALUES 
+    -> ('Abhinav', '1234567890'),
+    -> ('Jennifer', '9876543210'),
+    -> ('Sofia', '5556667777');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM contacts;
++----+-----------+------------+
+| id | user_name | phone      |
++----+-----------+------------+
+|  1 | Abhinav   | 1234567890 |
+|  2 | Jennifer  | 9876543210 |
+|  3 | Sofia     | 5556667777 |
++----+-----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE contacts;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| user_name | varchar(30) | YES  |     | NULL    |                |
+| phone     | varchar(15) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> show tables;
++--------------------+
+| Tables_in_messages |
++--------------------+
+| contacts           |
+| messages           |
+| user_groups        |
+| users              |
++--------------------+
+4 rows in set (0.05 sec)
+
+mysql> select * from contacts && show * from messages
+    -> 
+
+^C
+mysql> select * from contacts && show * from messages;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '&& show * from messages' at line 1
+mysql> select * from contacts, messages;
++----+-----------+------------+----+-----------------------------------------+----------+-----------+
+| id | user_name | phone      | id | message                                 | sender   | recipient |
++----+-----------+------------+----+-----------------------------------------+----------+-----------+
+|  3 | Sofia     | 5556667777 |  1 | hiiii....                               | Abhinav  | Jennifer  |
+|  2 | Jennifer  | 9876543210 |  1 | hiiii....                               | Abhinav  | Jennifer  |
+|  1 | Abhinav   | 1234567890 |  1 | hiiii....                               | Abhinav  | Jennifer  |
+|  3 | Sofia     | 5556667777 |  2 | I am Abhinav                            | Abhinav  | Jennifer  |
+|  2 | Jennifer  | 9876543210 |  2 | I am Abhinav                            | Abhinav  | Jennifer  |
+|  1 | Abhinav   | 1234567890 |  2 | I am Abhinav                            | Abhinav  | Jennifer  |
+|  3 | Sofia     | 5556667777 |  3 | Hello...I am Jennifer. Nice to meet you | Jennifer | Abhinav   |
+|  2 | Jennifer  | 9876543210 |  3 | Hello...I am Jennifer. Nice to meet you | Jennifer | Abhinav   |
+|  1 | Abhinav   | 1234567890 |  3 | Hello...I am Jennifer. Nice to meet you | Jennifer | Abhinav   |
++----+-----------+------------+----+-----------------------------------------+----------+-----------+
+9 rows in set (0.01 sec)
+
+mysql> select * from users, user_groups;
++----+----------+--------------------+----+-------------+------------+
+| id | name     | email              | id | group_name  | created_by |
++----+----------+--------------------+----+-------------+------------+
+|  1 | Abhinav  | abhinav@email.com  |  1 | Study Group | Jennifer   |
+|  2 | Jennifer | jennifer@email.com |  1 | Study Group | Jennifer   |
+|  3 | Sofia    | sofia@email.com    |  1 | Study Group | Jennifer   |
++----+----------+--------------------+----+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from user_groups;
++----+-------------+------------+
+| id | group_name  | created_by |
++----+-------------+------------+
+|  1 | Study Group | Jennifer   |
++----+-------------+------------+
+1 row in set (0.00 sec)
+
+
