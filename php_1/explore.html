@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore the Digital Lake</title>
+
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="explore-page">
+
+<div id="experienceContainer">
+
+    <!-- 🌊 LAKE -->
+    <div id="lakeContainer">
+
+        <div id="sky"></div>
+
+        <img src="images/frame3.png" id="lakeFrame" class="lake-background">
+
+        <!-- 🌧️ WEATHER -->
+        <div id="rain"></div>
+        <div id="snow"></div>
+
+        <!-- 🍖 FOOD -->
+        <div id="foodContainer"></div>
+
+        <!-- 🐟 ANIMALS -->
+        <div id="animalsContainer">
+            <span class="animal" onclick="interactAnimal(this)">🐠</span>
+            <span class="animal" onclick="interactAnimal(this)">🦌</span>
+            <span class="animal" onclick="interactAnimal(this)">🐢</span>
+            <span class="animal" onclick="interactAnimal(this)">🐦</span>
+        </div>
+
+        <!-- 📊 UI -->
+        <div id="ui-overlay">
+            <div id="temperatureDisplay">🌡️ 20°C</div>
+            <div id="populationDisplay">👥 Animals: 4</div>
+            <div id="statusMessage">Welcome to the Lake</div>
+        </div>
+
+    </div>
+
+    <!-- 🎮 CONTROLS -->
+    <div class="controls-panel">
+
+        <div class="control-group">
+            <h3>Nature</h3>
+            <button onclick="toggleDayNight()">🌞/🌙 Time</button>
+            <button onclick="cycleWeather()">🌦️ Weather</button>
+            <button onclick="changeTemperature()">🌡️ Season</button>
+        </div>
+
+        <div class="control-group">
+            <h3>Animals</h3>
+            <button onclick="addAnimal('fish')">🐠 +Fish</button>
+            <button onclick="addAnimal('bird')">🐦 +Bird</button>
+            <button onclick="addAnimal('turtle')">🐢 +Turtle</button>
+            <button onclick="feedAnimals()">🍖 Feed</button>
+        </div>
+
+        <div class="control-group">
+            <h3>Settings</h3>
+            <button onclick="speedUp()">⚡ Speed</button>
+            <button onclick="toggleSound()" id="soundBtn">🔊 Sound</button>
+            <a href="index.html" class="back-btn">Exit</a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔊 SOUNDS -->
+<audio id="lakeSound" loop src="https://www.soundjay.com/nature/lake-waves-01.mp3"></audio>
+<audio id="rainSound" loop src="https://www.soundjay.com/nature/rain-01.mp3"></audio>
+<audio id="birdSound" src="https://www.soundjay.com/nature/bird-chirp-01.mp3"></audio>
+<audio id="splashSound" src="https://www.soundjay.com/nature/water-splash-01.mp3"></audio>
+
+<!-- 🌧️ SCRIPT -->
+<script>
+let weather = "sunny";
+let isNight = false;
+let temperature = 20;
+
+/* 🌙 DAY / NIGHT */
+function toggleDayNight() {
+    isNight = !isNight;
+    document.body.classList.toggle("night");
+
+    temperature = isNight ? 12 : 20;
+    updateUI();
+
+    showStatus(isNight ? "🌙 Night Mode" : "☀️ Day Mode");
+}
+
+/* 🌦️ WEATHER */
+function cycleWeather() {
+    const rain = document.getElementById("rain");
+    const sky = document.getElementById("sky");
+    const rainSound = document.getElementById("rainSound");
+
+    rain.innerHTML = "";
+
+    if (weather === "sunny") {
+        weather = "rain";
+        startRain();
+        sky.style.background = "linear-gradient(to bottom, #5dade2, transparent)";
+        rainSound.play().catch(()=>{});
+        temperature = 18;
+        showStatus("🌧️ Rain started");
+    }
+
+    else if (weather === "rain") {
+        weather = "cloud";
+        rainSound.pause();
+        sky.style.background = "linear-gradient(to bottom, #d1d5db, transparent)";
+        temperature = 20;
+        showStatus("☁️ Cloudy");
+    }
+
+    else {
+        weather = "sunny";
+        rainSound.pause();
+        sky.style.background = "linear-gradient(to bottom, #87ceeb, transparent)";
+        temperature = 25;
+        showStatus("☀️ Sunny");
+    }
+
+    updateUI();
+}
+
+/* 🌧️ RAIN (BONITA Y SUAVE) */
+function startRain() {
+    const rain = document.getElementById("rain");
+
+    rain.innerHTML = "";
+
+    for (let i = 0; i < 80; i++) {
+        let drop = document.createElement("div");
+        drop.className = "drop";
+
+        drop.style.left = Math.random() * 100 + "%";
+        drop.style.animationDuration = (0.5 + Math.random()) + "s";
+        drop.style.animationDelay = Math.random() * 2 + "s";
+
+        rain.appendChild(drop);
+    }
+}
+
+/* 🌡️ UI */
+function updateUI() {
+    document.getElementById("temperatureDisplay").innerText =
+        `🌡️ ${temperature}°C`;
+}
+
+/* 📢 STATUS */
+function showStatus(msg) {
+    const el = document.getElementById("statusMessage");
+    el.innerText = msg;
+    el.classList.add("show");
+
+    setTimeout(() => {
+        el.classList.remove("show");
+    }, 2000);
+}
+</script>
+
+</body>
+</html>
