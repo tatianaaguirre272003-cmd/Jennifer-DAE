@@ -1,0 +1,71 @@
+#coverContainer {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    height: 600px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+/* 🌿 IMAGEN DE FONDO NATURAL */
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    filter: brightness(0.9) saturate(1.2);
+}
+
+/* 🌱 OVERLAY LIMPIO */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 50, 0, 0.75),
+        rgba(0, 100, 0, 0.35)
+    );
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+}
+
+/* 🌿 TÍTULO MEJORADO */
+.overlay h1 {
+    font-size: 3.5rem;
+    color: #eaffea;
+    margin-bottom: 15px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 🌱 TEXTO */
+.overlay p {
+    font-size: 1.2rem;
+    max-width: 450px;
+    color: #dfffe0;
+    line-height: 1.6;
+}
+
+/* 🌿 BOTÓN */
+.explore-btn {
+    margin-top: 25px;
+    align-self: flex-start;
+    padding: 15px 35px;
+    background: #22c55e;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.explore-btn:hover {
+    background: #16a34a;
+    transform: translateY(-3px);
+}
