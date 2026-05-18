@@ -3,169 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore the Digital Lake</title>
+<title>Digital Lake - Explore</title>
 
-<link rel="stylesheet" href="styles.css">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:sans-serif;
+}
+
+/* 🌊 BACKGROUND */
+.explore-page{
+    background: linear-gradient(to top,#003049,#00c6ff);
+}
+
+/* 🌊 LAKE */
+#lake{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60%;
+    background: linear-gradient(to top,#001f33,#0077be,#00c6ff);
+    border-top-left-radius:50% 20%;
+    border-top-right-radius:50% 20%;
+}
+
+/* WORLD */
+#lakeWorld{
+    position:absolute;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+/* 🐟 FISH */
+.fish{
+    position:absolute;
+    font-size:40px;
+    transition: all 8s linear;
+}
+
+/* 🌊 MOVING ANIMALS */
+.sea-life-move{
+    position:absolute;
+    font-size:45px;
+    transition: all 8s linear;
+}
+
+/* 🌿 STATIC */
+.sea-life-static{
+    position:absolute;
+    font-size:45px;
+}
+
+/* 🌿 PLANTS */
+#waterPlants{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60%;
+}
+
+.water-plant{
+    position:absolute;
+    font-size:40px;
+    animation:sway 5s ease-in-out infinite;
+}
+
+@keyframes sway{
+    0%{transform:rotate(-4deg);}
+    50%{transform:rotate(4deg);}
+    100%{transform:rotate(-4deg);}
+}
+
+/* 🌧️ RAIN */
+.drop{
+    position:absolute;
+    top:-20px;
+    width:2px;
+    height:15px;
+    background:white;
+    animation:fall 1s linear forwards;
+}
+
+@keyframes fall{
+    from { transform: translateY(0); opacity:1; }
+    to { transform: translateY(100vh); opacity:0; }
+}
+
+/* ❄️ SNOW */
+.snow{
+    position:absolute;
+    top:-20px;
+    font-size:18px;
+    animation:snowFall 3s linear forwards;
+}
+
+@keyframes snowFall{
+    from { transform: translateY(0); opacity:1; }
+    to { transform: translateY(100vh); opacity:0; }
+}
+
+/* ☀️ SUN */
+#sun{
+    position:absolute;
+    top:40px;
+    right:50px;
+    width:80px;
+    height:80px;
+    background:yellow;
+    border-radius:50%;
+    box-shadow:0 0 40px yellow;
+}
+
+/* BUTTONS */
+.controls{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+
+button{
+    margin:3px;
+    padding:8px 12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ff9ecf,#ff6ec7);
+    color:white;
+}
+</style>
 </head>
 
 <body class="explore-page">
 
-<div id="experienceContainer">
+<div id="lakeWorld">
+    <div id="lake"></div>
+    <div id="sun"></div>
+    <div id="rain"></div>
+</div>
 
-    <!-- 🌊 LAKE -->
-    <div id="lakeContainer">
+<div id="waterPlants"></div>
 
-        <div id="sky"></div>
+<div class="controls">
 
-        <img src="images/frame3.png" id="lakeFrame" class="lake-background">
+<button onclick="addFish()">🐟 Fish</button>
 
-        <!-- 🌧️ WEATHER -->
-        <div id="rain"></div>
-        <div id="snow"></div>
+<button onclick="addStatic('🪸')">🪸 Caracol</button>
+<button onclick="addStatic('🪷')">🪷 Lotus</button>
 
-        <!-- 🍖 FOOD -->
-        <div id="foodContainer"></div>
+<button onclick="addMove('🐬')">🐬 Dolphin</button>
+<button onclick="addMove('🐋')">🐋 Whale</button>
+<button onclick="addMove('🪼')">🪼 Medusa</button>
 
-        <!-- 🐟 ANIMALS -->
-        <div id="animalsContainer">
-            <span class="animal" onclick="interactAnimal(this)">🐠</span>
-            <span class="animal" onclick="interactAnimal(this)">🦌</span>
-            <span class="animal" onclick="interactAnimal(this)">🐢</span>
-            <span class="animal" onclick="interactAnimal(this)">🐦</span>
-        </div>
+<button onclick="addPlant()">🌿 Plant</button>
 
-        <!-- 📊 UI -->
-        <div id="ui-overlay">
-            <div id="temperatureDisplay">🌡️ 20°C</div>
-            <div id="populationDisplay">👥 Animals: 4</div>
-            <div id="statusMessage">Welcome to the Lake</div>
-        </div>
+<button onclick="toggleRain()">🌧️ Rain</button>
+<button onclick="toggleSnow()">❄️ Snow</button>
 
-    </div>
-
-    <!-- 🎮 CONTROLS -->
-    <div class="controls-panel">
-
-        <div class="control-group">
-            <h3>Nature</h3>
-            <button onclick="toggleDayNight()">🌞/🌙 Time</button>
-            <button onclick="cycleWeather()">🌦️ Weather</button>
-            <button onclick="changeTemperature()">🌡️ Season</button>
-        </div>
-
-        <div class="control-group">
-            <h3>Animals</h3>
-            <button onclick="addAnimal('fish')">🐠 +Fish</button>
-            <button onclick="addAnimal('bird')">🐦 +Bird</button>
-            <button onclick="addAnimal('turtle')">🐢 +Turtle</button>
-            <button onclick="feedAnimals()">🍖 Feed</button>
-        </div>
-
-        <div class="control-group">
-            <h3>Settings</h3>
-            <button onclick="speedUp()">⚡ Speed</button>
-            <button onclick="toggleSound()" id="soundBtn">🔊 Sound</button>
-            <a href="index.html" class="back-btn">Exit</a>
-        </div>
-
-    </div>
+<a href="index.html"><button>🏠 Home</button></a>
 
 </div>
 
-<!-- 🔊 SOUNDS -->
-<audio id="lakeSound" loop src="https://www.soundjay.com/nature/lake-waves-01.mp3"></audio>
-<audio id="rainSound" loop src="https://www.soundjay.com/nature/rain-01.mp3"></audio>
-<audio id="birdSound" src="https://www.soundjay.com/nature/bird-chirp-01.mp3"></audio>
-<audio id="splashSound" src="https://www.soundjay.com/nature/water-splash-01.mp3"></audio>
-
-<!-- 🌧️ SCRIPT -->
 <script>
-let weather = "sunny";
-let isNight = false;
-let temperature = 20;
 
-/* 🌙 DAY / NIGHT */
-function toggleDayNight() {
-    isNight = !isNight;
-    document.body.classList.toggle("night");
+/* 🐟 FISH */
+function addFish(){
+    const world=document.getElementById("lakeWorld");
 
-    temperature = isNight ? 12 : 20;
-    updateUI();
+    let f=document.createElement("div");
+    f.className="fish";
+    f.innerHTML="🐠";
 
-    showStatus(isNight ? "🌙 Night Mode" : "☀️ Day Mode");
+    f.style.left="100%";
+    f.style.top=(60+Math.random()*25)+"%";
+
+    world.appendChild(f);
+
+    setTimeout(()=>{
+        f.style.transition="all 8s linear";
+        f.style.left="-10%";
+    },100);
 }
 
-/* 🌦️ WEATHER */
-function cycleWeather() {
-    const rain = document.getElementById("rain");
-    const sky = document.getElementById("sky");
-    const rainSound = document.getElementById("rainSound");
+/* 🪸🪷 STATIC */
+function addStatic(type){
+    const world=document.getElementById("lakeWorld");
 
-    rain.innerHTML = "";
+    let s=document.createElement("div");
+    s.className="sea-life-static";
+    s.innerHTML=type;
 
-    if (weather === "sunny") {
-        weather = "rain";
-        startRain();
-        sky.style.background = "linear-gradient(to bottom, #5dade2, transparent)";
-        rainSound.play().catch(()=>{});
-        temperature = 18;
-        showStatus("🌧️ Rain started");
-    }
+    s.style.left=Math.random()*100+"%";
+    s.style.top=(60+Math.random()*25)+"%";
 
-    else if (weather === "rain") {
-        weather = "cloud";
-        rainSound.pause();
-        sky.style.background = "linear-gradient(to bottom, #d1d5db, transparent)";
-        temperature = 20;
-        showStatus("☁️ Cloudy");
-    }
-
-    else {
-        weather = "sunny";
-        rainSound.pause();
-        sky.style.background = "linear-gradient(to bottom, #87ceeb, transparent)";
-        temperature = 25;
-        showStatus("☀️ Sunny");
-    }
-
-    updateUI();
+    world.appendChild(s);
 }
 
-/* 🌧️ RAIN (BONITA Y SUAVE) */
-function startRain() {
-    const rain = document.getElementById("rain");
+/* 🐬🐋🪼 MOVING */
+function addMove(type){
+    const world=document.getElementById("lakeWorld");
 
-    rain.innerHTML = "";
+    let a=document.createElement("div");
+    a.className="sea-life-move";
+    a.innerHTML=type;
 
-    for (let i = 0; i < 80; i++) {
-        let drop = document.createElement("div");
-        drop.className = "drop";
+    a.style.left="100%";
+    a.style.top=(60+Math.random()*25)+"%";
 
-        drop.style.left = Math.random() * 100 + "%";
-        drop.style.animationDuration = (0.5 + Math.random()) + "s";
-        drop.style.animationDelay = Math.random() * 2 + "s";
+    world.appendChild(a);
 
-        rain.appendChild(drop);
-    }
+    setTimeout(()=>{
+        a.style.transition="all 8s linear";
+        a.style.left="-10%";
+    },100);
 }
 
-/* 🌡️ UI */
-function updateUI() {
-    document.getElementById("temperatureDisplay").innerText =
-        `🌡️ ${temperature}°C`;
+/* 🌿 PLANTS */
+function addPlant(){
+    const c=document.getElementById("waterPlants");
+
+    let p=document.createElement("div");
+    p.className="water-plant";
+    p.innerHTML="🌿";
+
+    p.style.left=Math.random()*100+"%";
+    p.style.bottom=Math.random()*20+"%";
+
+    c.appendChild(p);
 }
 
-/* 📢 STATUS */
-function showStatus(msg) {
-    const el = document.getElementById("statusMessage");
-    el.innerText = msg;
-    el.classList.add("show");
+/* 🌧️ RAIN (REAL FIXED) */
+function toggleRain(){
+    const r=document.getElementById("rain");
+    r.innerHTML="";
 
-    setTimeout(() => {
-        el.classList.remove("show");
-    }, 2000);
+    let interval=setInterval(()=>{
+        let d=document.createElement("div");
+        d.className="drop";
+        d.style.left=Math.random()*100+"%";
+
+        r.appendChild(d);
+
+        setTimeout(()=> d.remove(),1000);
+    },80);
+
+    setTimeout(()=>{
+        clearInterval(interval);
+        r.innerHTML="";
+    },3000);
 }
+
+/* ❄️ SNOW (REAL FIXED) */
+function toggleSnow(){
+    const world=document.getElementById("lakeWorld");
+
+    let interval=setInterval(()=>{
+        let s=document.createElement("div");
+        s.className="snow";
+        s.innerHTML="❄️";
+        s.style.left=Math.random()*100+"%";
+
+        world.appendChild(s);
+
+        setTimeout(()=> s.remove(),3000);
+    },150);
+
+    setTimeout(()=>{
+        clearInterval(interval);
+    },3000);
+}
+
 </script>
 
 </body>

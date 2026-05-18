@@ -1,294 +1,131 @@
-/*let temperature = 20;
-let isNight = false;
-let weather = "sunny";
+// 🌊 FISH SYSTEM
+const fishContainer = document.getElementById("fishContainer");
+function addFish(){
+    const world = document.getElementById("lakeWorld");
 
+    const animals = ["🐠","🐟","🐡","🐬","🐢","⭐","🪼"];
 
-function toggleDayNight() {
-    isNight = !isNight;
-    document.body.classList.toggle("night");
+    let fish = document.createElement("div");
+    fish.className = "fish";
 
-    temperature = isNight ? 12 : 20;
-    updateUI();
-    showStatus(isNight ? "🌙 Night Mode" : "☀️ Day Mode");
+    // elige animal aleatorio
+    fish.innerHTML = animals[Math.floor(Math.random() * animals.length)];
+
+    fish.style.left = "100%";
+    fish.style.top = (15 + Math.random()*60) + "%";
+
+    world.appendChild(fish);
+
+    setTimeout(()=>{
+        fish.style.transition = "left 6s linear";
+        fish.style.left = "-10%";
+    }, 200);
+
+    showStatus("🐠 Nuevo animal del mar apareció!");
 }
 
-
-function cycleWeather() {
-    const rain = document.getElementById("rain");
-    const snow = document.getElementById("snow");
-    const rainSound = document.getElementById("rainSound");
-
-    rain.innerHTML = "";
-    snow.innerHTML = "";
-
-    if (weather === "sunny") {
-        weather = "rain";
-        startRain(rain, rainSound);
-        temperature = 18;
-        showStatus("🌧️ Rain started");
-    }
-
-    else if (weather === "rain") {
-        weather = "cloud";
-        rainSound.pause();
-        temperature = 20;
-        showStatus("☁️ Cloudy");
-    }
-
-    else {
-        weather = "sunny";
-        rainSound.pause();
-        temperature = 25;
-        showStatus("☀️ Sunny");
-    }
-
-    updateSky();
-    updateUI();
-}
-
-
-function startRain(rain, sound) {
-    rain.innerHTML = "";
-
-    for (let i = 0; i < 80; i++) {
-        let drop = document.createElement("div");
-        drop.className = "drop";
-
-        drop.style.left = Math.random() * 100 + "%";
-        drop.style.animationDuration = (0.5 + Math.random()) + "s";
-        drop.style.animationDelay = Math.random() * 2 + "s";
-
-        rain.appendChild(drop);
-    }
-
-    sound.volume = 0.4;
-    sound.play().catch(()=>{});
-}
-
-
-function updateSky() {
-    const sky = document.getElementById("sky");
-
-    if (weather === "sunny") {
-        sky.style.background = "linear-gradient(to bottom, #87ceeb, transparent)";
-    }
-
-    if (weather === "rain") {
-        sky.style.background = "linear-gradient(to bottom, #5dade2, transparent)";
-    }
-
-    if (weather === "cloud") {
-        sky.style.background = "linear-gradient(to bottom, #d1d5db, transparent)";
-    }
-}
-
-
-function updateUI() {
-    document.getElementById("temperatureDisplay").innerText =
-        `🌡️ ${temperature}°C`;
-}
-
-
-function showStatus(msg) {
-    const el = document.getElementById("statusMessage");
-    el.innerText = msg;
-    el.classList.add("show");
-
-    setTimeout(() => {
-        el.classList.remove("show");
+function moveFish(fish) {
+    setInterval(() => {
+        fish.style.left = Math.random() * window.innerWidth + "px";
+        fish.style.top = (window.innerHeight * 0.55 + Math.random() * 120) + "px";
     }, 2000);
 }
 
-*/
+// 🌧️ RAIN
+let raining = false;
+const canvas = document.getElementById("rainCanvas");
+const ctx = canvas.getContext("2d");
 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let temperature = 20;
-let isNight = false;
-let weather = "sunny";
+let drops = [];
 
-/* =========================
-   🌙 DAY / NIGHT
-========================= */
-function toggleDayNight() {
-    isNight = !isNight;
-    document.body.classList.toggle("night");
-
-    temperature = isNight ? 12 : 20;
-    updateUI();
-    showStatus(isNight ? "🌙 Night Mode" : "☀️ Day Mode");
-}
-
-/* =========================
-   🌦️ WEATHER SYSTEM
-========================= */
-function cycleWeather() {
-    const rain = document.getElementById("rain");
-    const snow = document.getElementById("snow");
-    const rainSound = document.getElementById("rainSound");
-
-    if (rain) rain.innerHTML = "";
-    if (snow) snow.innerHTML = "";
-
-    if (weather === "sunny") {
-        weather = "rain";
-        startRain();
-        temperature = 18;
-
-        if (rainSound) {
-            rainSound.volume = 0.4;
-            rainSound.play().catch(()=>{});
-        }
-
-        showStatus("🌧️ Rain started");
-    }
-
-    else if (weather === "rain") {
-        weather = "cloud";
-        if (rainSound) {
-            rainSound.pause();
-            rainSound.currentTime = 0;
-        }
-
-        temperature = 20;
-        showStatus("☁️ Cloudy");
-    }
-
-    else {
-        weather = "sunny";
-        if (rainSound) {
-            rainSound.pause();
-            rainSound.currentTime = 0;
-        }
-
-        temperature = 25;
-        showStatus("☀️ Sunny");
-    }
-
-    updateSky();
-    updateUI();
-}
-
-/* =========================
-   🌧️ RAIN SYSTEM
-========================= */
-function startRain() {
-    const rain = document.getElementById("rain");
-    if (!rain) return;
-
-    rain.innerHTML = "";
-
-    for (let i = 0; i < 80; i++) {
-        let drop = document.createElement("div");
-        drop.className = "drop";
-
-        drop.style.left = Math.random() * 100 + "%";
-        drop.style.animationDuration = (0.5 + Math.random()) + "s";
-        drop.style.animationDelay = Math.random() * 2 + "s";
-
-        rain.appendChild(drop);
+function createRain() {
+    for (let i = 0; i < 100; i++) {
+        drops.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            len: Math.random() * 20 + 10
+        });
     }
 }
 
-/* =========================
-   🌤️ SKY UPDATE
-========================= */
-function updateSky() {
-    const sky = document.getElementById("sky");
-    if (!sky) return;
+function drawRain() {
+    if (!raining) return;
 
-    if (weather === "sunny") {
-        sky.style.background = "linear-gradient(to bottom, #87ceeb, transparent)";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(174,194,224,0.5)";
+
+    for (let d of drops) {
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x, d.y + d.len);
+        ctx.stroke();
+
+        d.y += 4;
+        if (d.y > canvas.height) d.y = 0;
     }
 
-    if (weather === "rain") {
-        sky.style.background = "linear-gradient(to bottom, #5dade2, transparent)";
-    }
-
-    if (weather === "cloud") {
-        sky.style.background = "linear-gradient(to bottom, #d1d5db, transparent)";
-    }
+    requestAnimationFrame(drawRain);
 }
 
-/* =========================
-   🌡️ UI UPDATE
-========================= */
-function updateUI() {
-    const temp = document.getElementById("temperatureDisplay");
-    if (temp) {
-        temp.innerText = `🌡️ ${temperature}°C`;
-    }
-}
-
-/* =========================
-   📢 STATUS MESSAGE
-========================= */
-function showStatus(msg) {
-    const el = document.getElementById("statusMessage");
-    if (!el) return;
-
-    el.innerText = msg;
-    el.classList.add("show");
-
-    setTimeout(() => {
-        el.classList.remove("show");
-    }, 2000);
-}
-
-/* =========================
-   🧩 FIX MISSING FUNCTIONS
-========================= */
-
-function changeTemperature() {
-    temperature += 2;
-    if (temperature > 30) temperature = 10;
-
-    updateUI();
-    showStatus("🌡️ Temperature changed");
-}
-
-function addAnimal(type) {
-    showStatus("🐾 Added " + type);
-}
-
-function feedAnimals() {
-    const food = document.getElementById("foodContainer");
-    if (!food) return;
-
-    for (let i = 0; i < 10; i++) {
-        let pellet = document.createElement("div");
-        pellet.className = "food-pellet";
-
-        pellet.style.left = Math.random() * 100 + "%";
-        pellet.style.top = "10%";
-
-        food.appendChild(pellet);
-
-        setTimeout(() => pellet.remove(), 3000);
-    }
-
-    showStatus("🍖 Animals are eating");
-}
-
-function speedUp() {
-    showStatus("⚡ Speed boosted");
-}
-
-function toggleSound() {
-    const lake = document.getElementById("lakeSound");
-    if (!lake) return;
-
-    if (lake.paused) {
-        lake.play().catch(()=>{});
-        showStatus("🔊 Sound ON");
+function toggleRain() {
+    raining = !raining;
+    if (raining) {
+        createRain();
+        drawRain();
     } else {
-        lake.pause();
-        showStatus("🔇 Sound OFF");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
 
-function interactAnimal(el) {
-    el.style.transform = "scale(1.3)";
-    setTimeout(() => {
-        el.style.transform = "";
-    }, 300);
+// ❄️ SNOW
+let snowing = false;
+
+function toggleSnow() {
+    snowing = !snowing;
+
+    if (snowing) {
+        for (let i = 0; i < 40; i++) {
+            let snow = document.createElement("div");
+            snow.className = "snowflake";
+            snow.innerHTML = "❄️";
+            snow.style.left = Math.random() * window.innerWidth + "px";
+            snow.style.animationDuration = (Math.random() * 5 + 3) + "s";
+
+            document.getElementById("snow").appendChild(snow);
+        }
+    } else {
+        document.getElementById("snow").innerHTML = "";
+    }
+}
+
+// ☀️ SUN
+let sunOn = false;
+
+function toggleSun() {
+    sunOn = !sunOn;
+    document.getElementById("sun").style.display = sunOn ? "block" : "none";
+}
+
+
+function addWaterPlants(){
+    const container = document.getElementById("waterPlants");
+
+    const plants = ["🌿","🌱","🌾","🍃","🪸"];
+
+    for(let i = 0; i < 20; i++){
+        let p = document.createElement("div");
+        p.className = "water-plant";
+
+        p.innerHTML = plants[Math.floor(Math.random() * plants.length)];
+
+        p.style.left = Math.random() * 100 + "%";
+        p.style.bottom = Math.random() * 40 + "%";
+
+        container.appendChild(p);
+    }
+
+    showStatus("🌿 Plantas del agua añadidas!");
 }

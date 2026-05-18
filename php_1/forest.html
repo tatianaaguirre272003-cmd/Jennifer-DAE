@@ -15,6 +15,23 @@
     overflow: hidden;
 }
 
+/* ⛰️ MONTAÑAS (ICONOS GRANDES) */
+#mountains{
+    position:absolute;
+    bottom: 35%;
+    width:100%;
+    height:55%;
+    z-index:0;
+    pointer-events:none;
+
+    font-size:140px;
+    text-align:center;
+    opacity:0.9;
+
+    letter-spacing: 20px;
+    filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.3));
+}
+
 /* 🌲 MAIN CONTAINER */
 #forestContainer {
     position: relative;
@@ -111,6 +128,9 @@ button {
 
 <div id="forestContainer">
 
+    <!-- ⛰️ MONTAÑAS GRANDES -->
+    <div id="mountains">⛰️⛰️⛰️⛰️⛰️</div>
+
     <div id="forestSky"></div>
     <div id="ground"></div>
 
@@ -137,6 +157,14 @@ button {
     <button onclick="addForestAnimal('butterfly')">🦋</button>
     <button onclick="addForestAnimal('bee')">🐝</button>
 
+    <h3>Wild Animals</h3>
+    <button onclick="addForestAnimal('leopard')">🐆</button>
+    <button onclick="addForestAnimal('rhino')">🦏</button>
+    <button onclick="addForestAnimal('zebra')">🦓</button>
+    <button onclick="addForestAnimal('crocodile')">🐊</button>
+    <button onclick="addForestAnimal('giraffe')">🦒</button>
+    <button onclick="addForestAnimal('monkey')">🐒</button>
+
     <h3>Environment</h3>
     <button onclick="addPlants()">🌿 Plants</button>
     <button onclick="addTrees()">🌳 Trees</button>
@@ -146,12 +174,15 @@ button {
 </div>
 
 <script>
+
 let forestAnimals = [];
 let speed = 1;
 
 const FOREST = {
     deer:'🦌', fox:'🦊', rabbit:'🐇', bear:'🐻', wolf:'🐺',
-    eagle:'🦅', owl:'🦉', butterfly:'🦋', bee:'🐝'
+    eagle:'🦅', owl:'🦉', butterfly:'🦋', bee:'🐝',
+    leopard:'🐆', rhino:'🦏', zebra:'🦓',
+    crocodile:'🐊', giraffe:'🦒', monkey:'🐒'
 };
 
 /* 📢 STATUS */
@@ -254,6 +285,7 @@ setInterval(()=>{
         update(a);
     });
 }, 50);
+
 </script>
 
 </body>
